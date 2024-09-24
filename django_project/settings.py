@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 # django_project/settings.py
-from environs import Env # new
-env = Env() # new
-env.read_env() # new
+from environs import Env  # new
+env = Env()  # new
+env.read_env()  # new
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,12 +23,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--#tj2w!zf_7di%x=t8egx$17v*&qnga$xlk%ctch@k!5s=d*&r'
+DEBUG = env.bool("DEBUG", default=True)  # new
+SECRET_KEY = env.str("SECRET_KEY")
+CSRF_TRUSTED_ORIGINS = ["https://*.herokuapp.com"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
 
 
 # Application definition
@@ -40,16 +41,16 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "crispy_forms", # new
-    "crispy_bootstrap5", # new
+    "crispy_forms",  # new
+    "crispy_bootstrap5",  # new
     'accounts',
     'pages',
     'articles',
     'whitenoise',
 ]
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5" # new
-CRISPY_TEMPLATE_PACK = "bootstrap5" # new
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"  # new
+CRISPY_TEMPLATE_PACK = "bootstrap5"  # new
 AUTH_USER_MODEL = 'accounts.CustomUser'
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -83,18 +84,13 @@ TEMPLATES = [
 WSGI_APPLICATION = 'django_project.wsgi.application'
 # django_project/settings.py
 
-LOGIN_REDIRECT_URL = "articles" # new
-LOGOUT_REDIRECT_URL = "home" # new
+LOGIN_REDIRECT_URL = "articles"  # new
+LOGOUT_REDIRECT_URL = "home"  # new
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+DATABASES = {"default": env.dj_db_url("DATABASE_URL")}
 
 
 # Password validation
@@ -132,17 +128,17 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / "staticfiles" # new
+STATIC_ROOT = BASE_DIR / "staticfiles"  # new
 STORAGES = {
     "default": {
         "BACKEND": "django.core.files.storage.FileSystemStorage",
     },
     "staticfiles": {
-        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage", # new
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",  # new
     },
 }
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend" # new
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # new
