@@ -11,10 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-# django_project/settings.py
-from environs import Env  # new
-env = Env()  # new
-env.read_env()  # new
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,13 +19,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-DEBUG = env.bool("DEBUG", default=True)  # new
-SECRET_KEY = env.str("SECRET_KEY")
-CSRF_TRUSTED_ORIGINS = ["https://*.herokuapp.com"]
+DEBUG = True  # new
+SECRET_KEY = 'ks3D8w47hixCrcRaPCrW3CiPEOz9FaDoVWbYq9YvjsazlhAMotrUZN0lgOXLn6GYxAo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 
-ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["*"]  # new
 
 
 # Application definition
